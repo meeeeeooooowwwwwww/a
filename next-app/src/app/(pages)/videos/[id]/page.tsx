@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaArrowLeft, FaTwitter, FaFacebook, FaEnvelope } from 'react-icons/fa';
-import { getVideoSlug, getVideoById, getVideos, type Video } from '@/utils/videos';
+import { getVideoSlug, getVideoById, getVideos, type Video, type WarroomVideo } from '@/utils/videos';
 import { notFound } from 'next/navigation';
 import { promises as fs } from 'fs';
 import path from 'path';
@@ -104,7 +104,9 @@ export default async function VideoPage({ params }: Props) {
           <div className="bg-white p-8 rounded-lg shadow-md mb-8">
             <div className="flex flex-wrap justify-between items-center mb-6">
               <div>
-                <p className="text-gray-500 mb-2">Source: {video.uploader.replace('https://', '')}</p>
+                {video.category === 'warroom' && (
+                  <p className="text-gray-500 mb-2">Source: {(video as WarroomVideo).uploader.replace('https://', '')}</p>
+                )}
               </div>
               <div className="flex space-x-4">
                 <a 
