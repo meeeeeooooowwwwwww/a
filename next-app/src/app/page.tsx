@@ -1,33 +1,10 @@
 import type { Metadata } from 'next';
 import PageHero from '@/components/sections/PageHero';
-import Carousel from '@/components/sections/Carousel';
 
 export const metadata: Metadata = {
   title: 'Natalie G. Winters - Author & Investigative Journalist',
   description: 'Official website of Natalie G. Winters - Author, investigative journalist, and host covering politics, culture, and current events.',
 };
-
-// Static carousel items
-const carouselItems = [
-  {
-    id: 1,
-    title: 'Natalie G. Winters',
-    description: 'Investigative Journalist',
-    image: '/images/natalie-winters/natalie-winters-3.jpg'
-  },
-  {
-    id: 2,
-    title: 'War Room',
-    description: 'White House Press Correspondent',
-    image: '/images/natalie-winters/natalie-winters-12.jpg'
-  },
-  {
-    id: 3,
-    title: 'Latest Investigations',
-    description: 'Stay informed with breaking news',
-    image: '/images/natalie-winters/natalie-winters-17.jpg'
-  }
-];
 
 export default function Home() {
   return (
@@ -38,7 +15,12 @@ export default function Home() {
         imageSrc="/images/natalie-winters/natalie-winters-3.jpg"
         imagePosition="center 15%"
       />
-      <Carousel items={carouselItems} />
+      <div className="py-12 content-container">
+        <h1 className="text-4xl font-serif font-bold mb-8">Welcome</h1>
+        <p className="text-xl text-gray-600 mb-8">
+          Investigative journalist, War Room host, and self-proclaimed "top spreader of misinformation" according to the New York Times.
+        </p>
+      </div>
     </main>
   );
 }

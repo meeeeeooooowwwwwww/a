@@ -34,44 +34,10 @@ const nextConfig = {
     ],
   },
   experimental: {
-    // Enable optimizations
     optimizeCss: true,
-    optimizePackageImports: ['@heroicons/react'],
   },
-  webpack: (config, { isServer }) => {
-    // Silence the punycode deprecation warning
-    config.ignoreWarnings = [
-      { module: /node_modules\/punycode/ }
-    ];
-
-    if (!isServer) {
-      // Optimize client-side chunks
-      config.optimization = {
-        ...config.optimization,
-        splitChunks: {
-          chunks: 'all',
-          minSize: 20000,
-          maxSize: 244000,
-          minChunks: 1,
-          maxAsyncRequests: 30,
-          maxInitialRequests: 30,
-          cacheGroups: {
-            defaultVendors: {
-              test: /[\\/]node_modules[\\/]/,
-              priority: -10,
-              reuseExistingChunk: true,
-            },
-            default: {
-              minChunks: 2,
-              priority: -20,
-              reuseExistingChunk: true,
-            },
-          },
-        },
-      };
-    }
-    return config;
-  },
+  trailingSlash: true,
+  distDir: 'out',
 };
 
 module.exports = nextConfig;
