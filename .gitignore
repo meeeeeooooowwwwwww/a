@@ -138,3 +138,8 @@ logs/
 **/worker_cache/
 **/__worker_*
 **/worker.config.json
+
+# Large media files
+*.mp4
+*.mov
+*_backup*/
