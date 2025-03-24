@@ -18,8 +18,8 @@ const playfair = Playfair_Display({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://nataliegwinters.com"),
-  title: "Natalie G. Winters - Author & Investigative Journalist",
-  description: "Official website of Natalie G. Winters - Author, investigative journalist, and host covering politics, culture, and current events.",
+  title: "Natalie Winters",
+  description: "Welcome to Natalie Winters",
   keywords: ["Natalie G Winters", "journalism", "politics", "culture", "current events", "9/11 files", "investigative reporting"],
   authors: [{ name: "Natalie G. Winters" }],
   openGraph: {

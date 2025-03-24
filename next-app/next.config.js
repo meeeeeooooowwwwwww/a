@@ -35,9 +35,7 @@ const nextConfig = {
   },
   experimental: {
     optimizeCss: true,
-  },
-  trailingSlash: true,
-  distDir: 'out',
+  }
 };
 
 module.exports = nextConfig;
