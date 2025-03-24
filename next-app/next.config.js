@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 // Deployment version: 2025-03-24-2
 const nextConfig = {
-  output: 'standalone',
+  output: 'export',
   env: {
     NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV,
   },
@@ -9,6 +9,7 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   images: {
+    unoptimized: true, // Required for static export
     remotePatterns: [
       {
         protocol: 'https',
@@ -31,9 +32,6 @@ const nextConfig = {
         hostname: 'sp.r2.cloudflarestorage.com',
       }
     ],
-    // Optimize image loading
-    minimumCacheTTL: 60,
-    formats: ['image/webp'],
   },
   experimental: {
     // Enable optimizations
@@ -50,13 +48,15 @@ const nextConfig = {
       // Optimize client-side chunks
       config.optimization = {
         ...config.optimization,
-        minimize: true,
         splitChunks: {
           chunks: 'all',
-          maxSize: 1000000, // 1MB max per chunk
-          minSize: 30000,   // 30KB min per chunk
+          minSize: 20000,
+          maxSize: 244000,
+          minChunks: 1,
+          maxAsyncRequests: 30,
+          maxInitialRequests: 30,
           cacheGroups: {
-            vendors: {
+            defaultVendors: {
               test: /[\\/]node_modules[\\/]/,
               priority: -10,
               reuseExistingChunk: true,
@@ -69,45 +69,8 @@ const nextConfig = {
           },
         },
       };
-
-      // Add module concatenation optimization
-      config.optimization.concatenateModules = true;
-
-      // Add runtime chunk optimization
-      config.optimization.runtimeChunk = {
-        name: 'runtime',
-      };
     }
-
     return config;
-  },
-  async headers() {
-    return [
-      {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'Content-Security-Policy',
-            value: [
-              "default-src 'self'",
-              "connect-src 'self' https://rumble.com https://*.rumble.cloud https://my-video-worker.generalflynn17.workers.dev",
-              "img-src 'self' https://*.r2.cloudflarestorage.com",
-              "style-src 'self' 'unsafe-inline'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline'",
-              "frame-src 'self' https://rumble.com",
-            ].join('; '),
-          },
-        ],
-      },
-    ];
-  },
-  async rewrites() {
-    return [
-      {
-        source: '/:path*',
-        destination: '/:path*',
-      },
-    ];
   },
 };
 
