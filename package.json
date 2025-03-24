@@ -1,0 +1,12 @@
+{
+  "name": "video-platform-monorepo",
+  "private": true,
+  "workspaces": [
+    "next-app",
+    "workers/*"
+  ],
+  "scripts": {
+    "dev:next": "cd next-app && npm run dev",
+    "dev:worker": "cd workers/my-video-worker && npm run dev"
+  }
+} 

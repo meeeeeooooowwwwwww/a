@@ -1,0 +1,654 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Fix for horizontal scrolling */
+html, body {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+.container {
+  width: 100%;
+  max-width: 100vw;
+  padding-left: env(safe-area-inset-left, 1rem);
+  padding-right: env(safe-area-inset-right, 1rem);
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-left: env(safe-area-inset-left, 2rem);
+    padding-right: env(safe-area-inset-right, 2rem);
+  }
+}
+
+@media (min-width: 1536px) {
+  .container {
+    padding-left: env(safe-area-inset-left, 4rem);
+    padding-right: env(safe-area-inset-right, 4rem);
+    max-width: 1920px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* Site wrapper for consistent layout */
+.site-wrapper {
+  width: 100%;
+  max-width: 1920px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: env(safe-area-inset-left, 1rem);
+  padding-right: env(safe-area-inset-right, 1rem);
+}
+
+/* Header styles */
+header > div {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+@media (min-width: 1024px) {
+  .site-wrapper {
+    padding-left: env(safe-area-inset-left, 2rem);
+    padding-right: env(safe-area-inset-right, 2rem);
+  }
+}
+
+@media (min-width: 1536px) {
+  .site-wrapper {
+    padding-left: env(safe-area-inset-left, 4rem);
+    padding-right: env(safe-area-inset-right, 4rem);
+  }
+}
+
+/* Content container for individual page content */
+.content-container {
+  width: 100%;
+  max-width: 1400px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 1024px) {
+  .content-container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+@layer base {
+  body {
+    @apply bg-background text-text font-sans leading-relaxed;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif text-charcoal;
+  }
+
+  a {
+    @apply text-pink-400 no-underline transition-colors duration-300 ease-in-out;
+  }
+
+  a:hover {
+    @apply text-pink-500;
+  }
+}
+
+@layer components {
+  .gradient-overlay {
+    @apply bg-gradient-to-b from-black/60 via-black/40 to-black/60;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-3 text-base font-medium text-white bg-pink-400 rounded-lg shadow-sm transition-all duration-200;
+  }
+
+  .btn:hover {
+    @apply bg-pink-500 transform scale-105;
+  }
+
+  .btn:focus {
+    @apply outline-none ring-2 ring-pink-400 ring-offset-2;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg shadow-sm transition-all duration-200 border-2;
+  }
+
+  .btn-outline:hover {
+    @apply bg-white/10 transform scale-105;
+  }
+
+  .btn-outline:focus {
+    @apply outline-none ring-2 ring-white ring-offset-2;
+  }
+
+  .card {
+    @apply bg-card-bg border border-neutral-300 rounded-lg p-6 shadow-soft mb-4 transition-all duration-200;
+  }
+
+  .card:hover {
+    @apply border-lavender shadow-medium;
+  }
+
+  .nav-link {
+    @apply text-charcoal font-medium hover:text-primary-400 transition-colors duration-200;
+  }
+
+  .nav-menu {
+    @apply bg-nav-bg py-4 border-b border-neutral-300;
+  }
+
+  .dropdown {
+    @apply relative;
+  }
+
+  .dropdown-content {
+    @apply hidden absolute bg-white border border-neutral-300 rounded-md shadow-medium z-10;
+    transition: visibility 0.2s, opacity 0.2s;
+    visibility: hidden;
+    opacity: 0;
+    display: block;
+    transition-delay: 0.1s;
+  }
+
+  .dropdown:hover .dropdown-content {
+    visibility: visible;
+    opacity: 1;
+    transition-delay: 0s;
+  }
+
+  /* Add delay when moving mouse out to give time to reach submenu */
+  .dropdown .dropdown-content {
+    transition-delay: 0.2s;
+  }
+
+  .dropdown-content a {
+    @apply block px-4 py-2 text-slate hover:bg-lavender hover:text-charcoal;
+  }
+
+  .form-input {
+    @apply w-full px-4 py-2 border border-input-border rounded-md bg-white text-charcoal transition-all duration-200;
+  }
+
+  .form-input:focus {
+    @apply outline-none border-primary-400 shadow-input;
+  }
+
+  .section {
+    @apply py-16 bg-background;
+  }
+
+  .footer {
+    @apply bg-footer-bg text-slate text-center py-4 border-t border-neutral-300;
+  }
+
+  .footer a {
+    @apply text-pink-400 hover:text-pink-300;
+  }
+
+  /* Custom dropdown hover styles with transitions for smoother experience */
+  .group:hover > div, 
+  .group:focus-within > div {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transition-delay: 0s;
+  }
+
+  /* Add hover transition styles for nested menus */
+  .group .group:hover > div,
+  .group .group:focus-within > div {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  /* Add padding to create invisible margin for easier mouse movement */
+  .group > div {
+    padding-top: 10px;
+    pointer-events: none;
+  }
+
+  /* Add padding to submenu items to make them easier to click */
+  .group .group > div {
+    margin-left: 10px;
+  }
+  
+  /* Ensure all interactive elements inside dropdowns have pointer events */
+  .group > div ul, 
+  .group > div li, 
+  .group > div a, 
+  .group > div button {
+    pointer-events: auto;
+  }
+  
+  /* Better nested menu hover areas */
+  .group .group {
+    position: relative;
+  }
+  
+  /* Create invisible hover bridges for submenus */
+  .group .group > div::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 100%;
+    width: 20px;
+    height: 100%;
+    background: transparent;
+  }
+
+  /* Apply uniform submenu positioning */
+  .fixed[style*="top: 64px"] {
+    margin-top: 5px !important;
+  }
+  
+  /* Fix for submenu hover boundaries */
+  .hover\:bg-gray-50:hover {
+    background-color: rgba(249, 250, 251, 1);
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* Improve submenu hover areas */
+  .group .group > div {
+    transition: opacity 0.3s, visibility 0.3s;
+  }
+  
+  /* Ensure submenu items have enough padding for easy clicking */
+  .hover\:bg-gray-50 a {
+    display: block;
+    padding: 8px 16px;
+  }
+
+  /* ===== MEGA MENU STYLES ===== */
+  /* Base menu container */
+  .mega-menu-container {
+    position: relative;
+    z-index: 210;
+  }
+
+  /* Main dropdown trigger */
+  .mega-menu-trigger {
+    @apply text-gray-800 font-medium hover:text-pink-400 transition-colors duration-200;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    padding: 8px 4px;
+    position: relative;
+  }
+
+  /* Main dropdown panel */
+  .mega-menu-panel {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    z-index: 200;
+    padding: 0.5rem 0;
+    min-width: 12rem;
+    margin-top: 0.5rem;
+    left: 0;
+    display: none;
+    top: 100%;
+    transition: opacity 0.3s, transform 0.3s;
+    transform: translateY(-5px);
+    opacity: 0;
+    overflow: visible;
+  }
+
+  /* Show the dropdown panel on hover with longer duration */
+  .mega-menu-container:hover .mega-menu-panel {
+    display: block;
+    transform: translateY(0);
+    opacity: 1;
+    transition-delay: 0.1s;
+  }
+  
+  /* Keep panel visible when hovering panel */
+  .mega-menu-panel:hover {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Menu items */
+  .mega-menu-item {
+    display: block;
+    padding: 0.85rem 1.5rem;
+    color: #4b5563;
+    width: 100%;
+    text-align: left;
+    transition: all 0.2s;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    border-left: 3px solid transparent;
+  }
+
+  /* Menu item hover */
+  .mega-menu-item:hover {
+    background-color: #fdf2f8 !important;
+    border-left: 3px solid #ec4899 !important;
+    color: #ec4899 !important;
+  }
+
+  /* Make hover areas more forgiving with pseudo-elements */
+  .mega-menu-trigger::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background: transparent;
+  }
+
+  /* ===== NESTED MEGA MENU STYLES ===== */
+  /* Container for nested menu items */
+  .nested-mega-menu {
+    position: relative;
+    display: block;
+  }
+
+  /* Trigger for nested dropdown */
+  .nested-trigger {
+    cursor: pointer;
+    border-left: 3px solid transparent;
+  }
+
+  .nested-trigger:hover {
+    background-color: #f9fafb;
+    border-left: 3px solid #ec4899;
+  }
+
+  /* The nested dropdown panel - aligned properly with parent */
+  .nested-mega-panel {
+    position: absolute;
+    top: -0.5rem; /* Slight vertical offset for better alignment */
+    left: calc(100% + 5px); /* Small gap between parent and submenu */
+    margin-left: 0; /* Remove margin */
+    background-color: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    z-index: 220;
+    padding: 0.5rem 0;
+    min-width: 12rem;
+    display: none;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: opacity 0.3s, transform 0.3s;
+    transition-delay: 0s;
+  }
+
+  /* Show nested panel on hover with fixed positioning */
+  .nested-mega-menu:hover .nested-mega-panel {
+    display: block;
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  /* Ensure the nested menus stay open with a longer hover bridge */
+  .nested-mega-menu::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 20px; /* Hover bridge width */
+    height: 100%;
+    background: transparent;
+    z-index: 225;
+  }
+
+  /* Add a hover bridge from child menu back to parent */
+  .nested-mega-panel::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -10px;
+    width: 10px;
+    height: 100%;
+    background: transparent;
+    z-index: 225;
+  }
+
+  /* Improve the nested trigger display */
+  .nested-trigger {
+    position: relative;
+    padding: 0.75rem 1.25rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Maintain hover effect on parent item when nested menu is open */
+  .nested-mega-menu:hover .nested-trigger {
+    background-color: #fdf2f8;
+    color: #ec4899;
+    border-left: 3px solid #ec4899;
+  }
+
+  /* Fix header layout to prevent jump and scrollbar */
+  header {
+    overflow: visible !important;
+  }
+
+  header > div {
+    overflow: visible !important;
+  }
+
+  /* Fix for Hero section to prevent overflow issues */
+  section.relative {
+    z-index: 100;
+  }
+  
+  /* Add transition delay on menu closing */
+  .mega-menu-container .mega-menu-panel {
+    transition-delay: 0.3s; /* Longer delay when closing */
+  }
+  
+  .mega-menu-container:hover .mega-menu-panel {
+    transition-delay: 0s; /* No delay when opening */
+  }
+
+  /* Add hover effect on the trigger elements */
+  .mega-menu-trigger:hover {
+    background-color: rgba(249, 250, 251, 0.3);
+    color: #ec4899;
+  }
+  
+  /* Fix any possible menu cropping at window edge */
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Add same transition delays for nested panels */
+  .nested-mega-menu .nested-mega-panel {
+    transition-delay: 0.3s; /* Delay when closing */
+  }
+  
+  .nested-mega-menu:hover .nested-mega-panel {
+    transition-delay: 0s; /* No delay when opening */
+  }
+  
+  /* Make the hover area for nested menus more generous */
+  .nested-trigger {
+    padding: 0.75rem 1.25rem;
+    width: 100%;
+  }
+  
+  /* Ensure nested panels stay on screen */
+  .nested-mega-panel {
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
+  }
+  
+  /* Ensure nested panels display all content */
+  .nested-mega-panel {
+    max-height: none;
+    overflow: visible;
+  }
+  
+  /* Prevent nested panels from disappearing on fast mouse movements */
+  .nested-mega-panel:hover {
+    display: block;
+    opacity: 1;
+    transform: translateX(0);
+  }
+  
+  /* Improve positioning for all nested panels */
+  [data-position="1"] .nested-mega-panel { top: 64px !important; }
+  [data-position="2"] .nested-mega-panel { top: 108px !important; }
+  [data-position="3"] .nested-mega-panel { top: 152px !important; }
+  [data-position="4"] .nested-mega-panel { top: 196px !important; }
+  [data-position="5"] .nested-mega-panel { top: 240px !important; }
+  
+  /* Ensure mega-menu-panels have full height */
+  .mega-menu-panel {
+    height: auto;
+  }
+
+  /* Remove fixed positioning - let items position naturally */
+  [data-position="1"] .nested-mega-panel,
+  [data-position="2"] .nested-mega-panel,
+  [data-position="3"] .nested-mega-panel,
+  [data-position="4"] .nested-mega-panel,
+  [data-position="5"] .nested-mega-panel {
+    top: 0 !important; /* Reset all fixed positions */
+  }
+}
+
+@layer utilities {
+  .prose {
+    @apply max-w-none;
+  }
+
+  .prose h1,
+  .prose h2,
+  .prose h3,
+  .prose h4 {
+    @apply font-serif text-charcoal;
+  }
+
+  .prose a {
+    @apply text-primary-400 no-underline hover:text-primary-300;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  body {
+    @apply bg-white text-charcoal;
+  }
+
+  .card {
+    @apply border-charcoal;
+  }
+
+  .btn {
+    @apply bg-charcoal text-white;
+  }
+}
+
+/* Custom Slick Carousel Styling */
+.slick-dots {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 15px auto;
+  padding: 0;
+  gap: 8px;
+}
+
+.slick-slide {
+  padding: 0 5px;
+}
+
+.slick-list {
+  margin: 0 -5px;
+}
+
+@media screen and (max-width: 768px) {
+  .slick-dots > li {
+    margin-bottom: 10px;
+  }
+  
+  .slick-dots > li > div {
+    width: 24px !important;
+    height: 24px !important;
+    font-size: 10px !important;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .slick-dots > li {
+    margin-bottom: 8px;
+  }
+  
+  .slick-dots > li > div {
+    width: 22px !important;
+    height: 22px !important;
+    font-size: 9px !important;
+  }
+}
+
+/* Color customization for primary theme */
+.mega-submenu-trigger.text-primary-600:hover,
+.mega-menu-item:hover {
+  color: var(--primary-500, #8b5cf6);
+}
+
+/* Color customization for primary theme */
+.mega-menu-trigger:hover,
+.nested-trigger:hover {
+  color: #ec4899;
+}
+
+/* Override all purple hover colors with pink */
+.nested-trigger:hover {
+  background-color: #fdf2f8 !important;
+  border-left: 3px solid #ec4899 !important;
+  color: #ec4899 !important;
+}
+
+/* Ensure all menu items use pink on hover */
+.mega-menu-item:hover {
+  background-color: #fdf2f8 !important;
+  border-left: 3px solid #ec4899 !important;
+  color: #ec4899 !important;
+}
+
+.mega-submenu-trigger.text-primary-600:hover {
+  color: #ec4899 !important;
+}
+
+/* Update all hover states to use pink-400 */
+.hover\:text-primary-500:hover {
+  color: #ec4899 !important;
+}
+
+.text-primary-500 {
+  color: #ec4899 !important;
+}
+
+/* Fix link colors in footer */
+.footer a {
+  @apply text-pink-400 hover:text-pink-300;
+}
+
+/* Override category colors with pink */
+.border-primary-200 {
+  border-color: #fbcfe8 !important; /* pink-200 */
+}
+
+.text-primary-600 {
+  color: #db2777 !important; /* pink-600 */
+}
