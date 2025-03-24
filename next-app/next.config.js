@@ -22,10 +22,11 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: '*.r2.cloudflarestorage.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'sp.r2.cloudflarestorage.com',
       }
-    ],
-    domains: [
-      'sp.r2.cloudflarestorage.com',
     ],
   },
   async headers() {
