@@ -3,6 +3,9 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getLatestArticles, formatDate, getArticleSlug } from '@/utils/warroom'
 
+// Mark this page as dynamically rendered
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: 'News - Natalie G. Winters',
   description: 'Breaking news and investigative reports from Natalie G. Winters.',
@@ -26,7 +29,7 @@ function getNewsImage(title: string): string {
 }
 
 export default async function NewsPage() {
-  const articles = await getLatestArticles(12);
+  const articles = await getLatestArticles(12) || [];
 
   return (
     <div className="py-12 content-container">
@@ -56,8 +59,8 @@ export default async function NewsPage() {
           >
             <div className="relative h-48 mb-4 overflow-hidden rounded-t-lg">
               <Image
-                src={getNewsImage(article.url)}
-                alt={article.title}
+                src={getNewsImage(article.url || '')}
+                alt={article.title || 'News article'}
                 fill
                 className="object-contain bg-white p-4"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
@@ -73,6 +76,11 @@ export default async function NewsPage() {
             </div>
           </Link>
         ))}
+        {articles.length === 0 && (
+          <div className="col-span-full text-center py-12 text-gray-500">
+            No articles available at the moment.
+          </div>
+        )}
       </div>
     </div>
   )

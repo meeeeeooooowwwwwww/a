@@ -1,5 +1,21 @@
 export interface WarroomArticle {
+  url: string;
+  timestamp: string;
   title: string;
+  title_html: string;
+  author: string;
+  author_html: string;
+  published_date: string;
+  published_date_html: string;
+  categories: string[];
+  categories_html: string[];
+  ordered_content: {
+    type: 'heading' | 'paragraph';
+    html: string;
+    text: string;
+    level?: string;
+  }[];
+  full_article_html: string;
   link: string;
   thumbnail: string;
   uploader: string;

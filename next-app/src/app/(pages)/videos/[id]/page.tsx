@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaArrowLeft, FaTwitter, FaFacebook, FaEnvelope } from 'react-icons/fa';
-import { getVideoSlug, getVideoById, getVideos } from '@/utils/videos';
+import { getVideoSlug, getVideoById, getVideos, type Video } from '@/utils/videos';
 import { notFound } from 'next/navigation';
 import { promises as fs } from 'fs';
 import path from 'path';
@@ -22,24 +22,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
-// Assuming each video object has a type with an `id` field
-interface Video {
-  id: string;
-  // other fields can be added here if needed
-}
-
 // Generate static paths for all videos
 export async function generateStaticParams() {
-  const videos = await getVideos();
+  const videos = await getVideos('warroom');
   if (!videos) {
     return []; // Handle null/undefined case
   }
-  return videos.slice(0, 50).map((video) => ({ id: video.id }));
+  return videos.slice(0, 50).map((video: Video) => ({ id: video.id }));
 }
 
 export default async function VideoPage({ params }: Props) {
-  const videos = await getVideos();
-  const video = videos?.find((v) => v.id === params.id);
+  const videos = await getVideos('warroom');
+  const video = videos?.find((v: Video) => v.id === params.id);
   if (!video) {
     return <div>Video not found</div>;
   }

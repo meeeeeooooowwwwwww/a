@@ -2,7 +2,11 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { getLatestArticles, formatDate, getArticleSlug } from '@/utils/warroom'
+import type { WarroomArticle } from '@/types/warroom'
 import { FaTwitter } from 'react-icons/fa'
+
+// Mark this page as dynamically rendered
+export const dynamic = 'force-dynamic'
 
 export const metadata: Metadata = {
   title: 'Latest Posts - Natalie G. Winters',
@@ -10,9 +14,9 @@ export const metadata: Metadata = {
 }
 
 export default async function LatestPostsPage() {
-  const articles = await getLatestArticles(12);
-  const featuredArticle = articles[0];
-  const regularArticles = articles.slice(1);
+  const articles = await getLatestArticles(12) || [];
+  const featuredArticle = articles.length > 0 ? articles[0] : null;
+  const regularArticles = articles.length > 1 ? articles.slice(1) : [];
 
   return (
     <div className="py-12 content-container">
@@ -28,7 +32,7 @@ export default async function LatestPostsPage() {
 
       {/* Categories */}
       <div className="flex flex-wrap justify-center gap-4 mb-12">
-        {Array.from(new Set(articles.flatMap(article => article.categories))).map((category) => (
+        {articles.length > 0 && Array.from(new Set(articles.flatMap(article => article.categories))).map((category) => (
           <button
             key={category}
             className="px-6 py-2 rounded-full border border-pink-200 text-pink-600 hover:bg-pink-50 transition-colors"
