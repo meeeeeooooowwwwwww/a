@@ -3,9 +3,9 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { getVideoSlug, NatalieVideo } from '@/utils/videos';
+import { VIDEO_WORKER_URL } from '@/config/environment';
 import PageHero from '@/components/sections/PageHero';
 import { useEffect, useState } from 'react';
-import { VIDEO_CONFIG } from '@/config';
 
 interface PaginatedResponse {
   videos: NatalieVideo[];
@@ -25,7 +25,7 @@ export default function NatalieVideosPage() {
     async function fetchVideos() {
       try {
         console.log('Fetching videos from Worker...');
-        const response = await fetch(`${VIDEO_CONFIG.ENDPOINTS.NATALIE}?page=1&limit=12`);
+        const response = await fetch(`${VIDEO_WORKER_URL}/videos/natalie?page=1&limit=12`);
         if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
         const data: PaginatedResponse = await response.json();
         console.log('Worker Response:', data);

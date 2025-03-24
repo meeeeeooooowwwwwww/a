@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getVideoSlug, WarroomVideo } from '@/utils/videos';
+import { VIDEO_WORKER_URL } from '@/config/environment';
 import PageHero from '@/components/sections/PageHero';
 
 interface PaginatedResponse {
@@ -24,7 +25,7 @@ export default function BannonWarRoomPage() {
     async function fetchVideos() {
       try {
         console.log('Fetching videos from Worker...');
-        const response = await fetch(`https://my-video-worker.generalflynn17.workers.dev/videos/warroom?page=1&limit=12`);
+        const response = await fetch(`${VIDEO_WORKER_URL}/videos/warroom?page=1&limit=12`);
         if (!response.ok) throw new Error(`HTTP error: ${response.status}`);
         const data: PaginatedResponse = await response.json();
         console.log('Worker Response:', data);
