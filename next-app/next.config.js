@@ -46,28 +46,38 @@ const nextConfig = {
       { module: /node_modules\/punycode/ }
     ];
 
-    // Optimize chunks with smaller sizes
-    config.optimization = {
-      ...config.optimization,
-      minimize: true,
-      splitChunks: {
-        chunks: 'all',
-        minSize: 10000,
-        maxSize: 20000,
-        cacheGroups: {
-          defaultVendors: {
-            test: /[\\/]node_modules[\\/]/,
-            priority: -10,
-            reuseExistingChunk: true,
-          },
-          default: {
-            minChunks: 2,
-            priority: -20,
-            reuseExistingChunk: true,
+    if (!isServer) {
+      // Optimize client-side chunks
+      config.optimization = {
+        ...config.optimization,
+        minimize: true,
+        splitChunks: {
+          chunks: 'all',
+          maxSize: 1000000, // 1MB max per chunk
+          minSize: 30000,   // 30KB min per chunk
+          cacheGroups: {
+            vendors: {
+              test: /[\\/]node_modules[\\/]/,
+              priority: -10,
+              reuseExistingChunk: true,
+            },
+            default: {
+              minChunks: 2,
+              priority: -20,
+              reuseExistingChunk: true,
+            },
           },
         },
-      },
-    };
+      };
+
+      // Add module concatenation optimization
+      config.optimization.concatenateModules = true;
+
+      // Add runtime chunk optimization
+      config.optimization.runtimeChunk = {
+        name: 'runtime',
+      };
+    }
 
     return config;
   },
