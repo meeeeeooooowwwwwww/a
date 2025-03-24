@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+// Deployment version: 2025-03-24
 const nextConfig = {
   output: 'standalone',
   env: {
