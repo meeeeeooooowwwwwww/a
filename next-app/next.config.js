@@ -6,6 +6,8 @@ const nextConfig = {
     NEXT_PUBLIC_ENV: process.env.NEXT_PUBLIC_ENV,
   },
   reactStrictMode: true,
+  compress: true,
+  poweredByHeader: false,
   images: {
     remotePatterns: [
       {
@@ -29,6 +31,45 @@ const nextConfig = {
         hostname: 'sp.r2.cloudflarestorage.com',
       }
     ],
+    // Optimize image loading
+    minimumCacheTTL: 60,
+    formats: ['image/webp'],
+  },
+  experimental: {
+    // Enable optimizations
+    optimizeCss: true,
+    optimizePackageImports: ['@heroicons/react'],
+  },
+  webpack: (config, { isServer }) => {
+    // Silence the punycode deprecation warning
+    config.ignoreWarnings = [
+      { module: /node_modules\/punycode/ }
+    ];
+
+    // Optimize chunks with smaller sizes
+    config.optimization = {
+      ...config.optimization,
+      minimize: true,
+      splitChunks: {
+        chunks: 'all',
+        minSize: 10000,
+        maxSize: 20000,
+        cacheGroups: {
+          defaultVendors: {
+            test: /[\\/]node_modules[\\/]/,
+            priority: -10,
+            reuseExistingChunk: true,
+          },
+          default: {
+            minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true,
+          },
+        },
+      },
+    };
+
+    return config;
   },
   async headers() {
     return [
@@ -49,13 +90,6 @@ const nextConfig = {
         ],
       },
     ];
-  },
-  webpack: (config, { isServer }) => {
-    // Silence the punycode deprecation warning
-    config.ignoreWarnings = [
-      { module: /node_modules\/punycode/ }
-    ];
-    return config;
   },
 };
 
