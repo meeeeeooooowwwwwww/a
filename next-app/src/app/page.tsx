@@ -1,11 +1,3 @@
-import type { Metadata } from 'next';
-import PageHero from '@/components/sections/PageHero';
-
-export const metadata: Metadata = {
-  title: 'Natalie G. Winters - Author & Investigative Journalist',
-  description: 'Official website of Natalie G. Winters - Author, investigative journalist, and host covering politics, culture, and current events.',
-};
-
 export default function Home() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4">
