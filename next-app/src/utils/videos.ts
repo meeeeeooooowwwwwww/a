@@ -1,7 +1,5 @@
 import { promises as fs } from 'fs';
 import path from 'path';
-import { isCloudflare } from '@/config/environment';
-import * as cloudflareVideos from './videos.cloudflare';
 
 // Base video interface that all categories share
 export interface BaseVideo {
@@ -36,7 +34,7 @@ interface VideoCache {
 
 let videoCache: VideoCache = {};
 
-const WORKER_URL = 'https://my-video-worker.generalflynn17.workers.dev';
+const WORKER_URL = process.env.NEXT_PUBLIC_VIDEO_WORKER_URL || 'https://my-video-worker.generalflynn17.workers.dev';
 
 /**
  * Load videos for a specific category
@@ -50,7 +48,11 @@ export async function loadVideos(category: VideoCategory): Promise<Video[]> {
   }
 
   try {
-    const response = await fetch(`${WORKER_URL}/videos/${category}`);
+    const response = await fetch(`${WORKER_URL}/videos/${category}`, {
+      headers: {
+        'X-API-Key': process.env.VIDEO_WORKER_API_KEY || '',
+      },
+    });
     if (!response.ok) {
       throw new Error(`Failed to fetch ${category} videos`);
     }
@@ -87,7 +89,11 @@ export function clearVideoCache(category?: VideoCategory): void {
  */
 export async function getFeedVideos(): Promise<Video[]> {
   try {
-    const response = await fetch(`${WORKER_URL}/videos/feed`);
+    const response = await fetch(`${WORKER_URL}/videos/feed`, {
+      headers: {
+        'X-API-Key': process.env.VIDEO_WORKER_API_KEY || '',
+      },
+    });
     if (!response.ok) {
       throw new Error('Failed to fetch videos feed');
     }
@@ -162,13 +168,10 @@ export function getVideoSlug(url: string): string | null {
   }
 }
 
-// Export the cloudflare-specific getVideos function
-export const getVideos = isCloudflare
-  ? cloudflareVideos.getVideos
-  : async (type: VideoCategory) => {
-      const localVideos = await import('./videos.local');
-      return localVideos.getVideos(type);
-    };
+// Export the unified getVideos function
+export const getVideos = async (type: VideoCategory) => {
+  return loadVideos(type);
+};
 
 export async function generateStaticParams() {
   const videos = await loadVideos('warroom');
